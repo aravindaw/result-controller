@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+import errno
+import os
 import time
 import subprocess
 from watchdog.observers import Observer
@@ -5,7 +9,7 @@ from watchdog.events import FileSystemEventHandler
 
 
 class Watcher:
-    ALLURE_RESULT_DIRECTORY = "/home/allure-result"
+    ALLURE_RESULT_DIRECTORY = "/home/allure-results"
 
     def __init__(self):
         self.observer = Observer()
@@ -40,7 +44,7 @@ class Handler(FileSystemEventHandler):
 
     @staticmethod
     def report_generator():
-        process = subprocess.Popen("sh /home/test.sh", shell=True, stdout=subprocess.PIPE)
+        process = subprocess.Popen("allure ", shell=True, stdout=subprocess.PIPE)
         process.wait()
 
 

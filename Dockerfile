@@ -36,6 +36,7 @@ RUN apt-get update \
     && cd /usr/local/bin \
     && ln -s /usr/bin/python3 python \
     && pip3 install --upgrade pip \
+    && apt-get install python3-distutils \
     && pip install watchdog
 
 ADD result-controller /home/result-controller
@@ -44,4 +45,4 @@ ADD result-controller /home/result-controller
 
 ADD test.sh /home/test.sh
 
-CMD ["/usr/bin/python3", "/home/result-controller/src/ResultController.py &"]
+#ENTRYPOINT ["/usr/bin/python3", "/home/result-controller/src/ResultController.py &"]
