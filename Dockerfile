@@ -43,6 +43,6 @@ ADD result-controller /home/result-controller
 
 #ADD result_controller.service /lib/systemd/system/result_controller.service
 
-ADD test.sh /home/test.sh
+ADD result-controller/generator.sh /home/generator.sh
 
-#ENTRYPOINT ["/usr/bin/python3", "/home/result-controller/src/ResultController.py &"]
+#ENTRYPOINT ["/usr/bin/python3", "/home/result-controller/src/resultController.py &"]

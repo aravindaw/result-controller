@@ -2,14 +2,20 @@
 
 import errno
 import os
+import logging
+import threading
 import time
 import subprocess
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+logging.basicConfig(filename='/home/result-controller/info.log', filemode='w', level=logging.INFO)
+ALLURE_REPORT_DIRECTORY = "/home/allure-report"
+
 
 class Watcher:
-    ALLURE_RESULT_DIRECTORY = "/home/allure-results"
+
+    ALLURE_RESULT_DIRECTORY = "/home/results"
 
     def __init__(self):
         self.observer = Observer()
@@ -23,7 +29,7 @@ class Watcher:
                 time.sleep(1)
         except KeyboardInterrupt:
             self.observer.stop()
-            print("Error")
+            logging.info('Error')
 
         self.observer.join()
 
@@ -32,20 +38,22 @@ class Handler(FileSystemEventHandler):
 
     @staticmethod
     def on_any_event(event):
-        print(f'event type: {event.event_type}  path : {event.src_path}')
+        logging.info(f'event type: {event.event_type}  path : {event.src_path}')
         if event.event_type == 'created':
-            print('new content created.')
-            Handler.report_generator()
+            logging.info('new content created.')
+            Handler.report_generator(event.src_path)
             return
         elif event.event_type == 'moved':
-            print('Content modified.')
-            Handler.report_generator()
+            logging.info('Content modified.')
+            Handler.report_generator(event.src_path)
             return
 
     @staticmethod
-    def report_generator():
-        process = subprocess.Popen("allure ", shell=True, stdout=subprocess.PIPE)
-        process.wait()
+    def report_generator(report_path):
+        logging.info('Execute generator.')
+        process = subprocess.Popen(f'sh /home/generator.sh {report_path} {ALLURE_REPORT_DIRECTORY}', shell=True, stdout=subprocess.PIPE)
+        thread = threading.Thread(target=process.wait())
+        thread.start()
 
 
 if __name__ == '__main__':

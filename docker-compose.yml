@@ -1,0 +1,15 @@
+#### docker run -it -v /home/aravinda-weerasekara/Projects/allure-docker/allure-results/:/home/allure-results --name allure-docker allure /bin/bash
+
+version: '3'
+services:
+  allure:
+    image: "allure"
+    user: "0:0"
+    container_name: "Allure-docker"
+    environment:
+      #CHECK_RESULTS_EVERY_SECONDS: 1
+      #KEEP_HISTORY: "TRUE"
+    ports:
+      - "5050:5050"
+    volumes:
+      - /home/aravinda-weerasekara/Projects/allure-docker/allure-results/:/home/results
