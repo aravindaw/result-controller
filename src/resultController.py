@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import errno
 import os
 import logging
 import threading
@@ -50,10 +49,26 @@ class Handler(FileSystemEventHandler):
 
     @staticmethod
     def report_generator(report_path):
-        logging.info('Execute generator.')
-        process = subprocess.Popen(f'sh /home/generator.sh {report_path} {ALLURE_REPORT_DIRECTORY}', shell=True, stdout=subprocess.PIPE)
-        thread = threading.Thread(target=process.wait())
+        size_past = -1
+        print("new file size:::: ")
+        # historical_size = -1
+        while True:
+            size_now = os.path.getsize(report_path)
+            if size_now == size_past:
+                print("file has copied completely now size: %s", size_now)
+                break
+            else:
+                size_past = os.path.getsize(report_path)
+                time.sleep(3)
+                print("file copying size: %s", size_past)
+        print("file copy has now finished......................")
+        print('Execute generator.')
+        threads = []
+        process = subprocess.Popen(f'sh /home/generator.sh {report_path} {ALLURE_REPORT_DIRECTORY}', shell=True, stdout=subprocess.PIPE).wait()
+        thread = threading.Thread(target=process)
+        threads.append(thread)
         thread.start()
+        # os.system('allure open -p 8080 /home/allure-report/ &')
 
 
 if __name__ == '__main__':
