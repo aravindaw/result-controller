@@ -16,7 +16,5 @@ echo generate report folder from result folder >> /home/result-controller/info.l
 echo remove tmp report >> /home/result-controller/info.log
 # shellcheck disable=SC2046
 # shellcheck disable=SC2009
-./home/result-controller/kill.sh allure
-echo open allure report >> /home/result-controller/info.log
 allure open -p 8080 /home/allure-report/ &
 return 1

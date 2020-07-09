@@ -66,7 +66,6 @@ class Handler(FileSystemEventHandler):
         thread = threading.Thread(target=process)
         threads.append(thread)
         thread.start()
-        # os.system('allure open -p 8080 /home/allure-report/ &')
 
 
 if __name__ == '__main__':
