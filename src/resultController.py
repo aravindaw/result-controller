@@ -50,19 +50,17 @@ class Handler(FileSystemEventHandler):
     @staticmethod
     def report_generator(report_path):
         size_past = -1
-        print("new file size:::: ")
         # historical_size = -1
         while True:
             size_now = os.path.getsize(report_path)
             if size_now == size_past:
-                print("file has copied completely now size: %s", size_now)
+                logging.info("file has copied completely now size: %s", size_now)
                 break
             else:
                 size_past = os.path.getsize(report_path)
                 time.sleep(3)
-                print("file copying size: %s", size_past)
-        print("file copy has now finished......................")
-        print('Execute generator.')
+                logging.info("file copying size: %s", size_past)
+        logging.info('Execute generator.')
         threads = []
         process = subprocess.Popen(f'sh /home/generator.sh {report_path} {ALLURE_REPORT_DIRECTORY}', shell=True, stdout=subprocess.PIPE).wait()
         thread = threading.Thread(target=process)
