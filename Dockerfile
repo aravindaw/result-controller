@@ -8,18 +8,6 @@ RUN apt-get update -y \
     && apt-get install -y \
     && apt-get install build-essential curl file git -y
 
-# Install allure
-#RUN git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew \
-#    && mkdir ~/.linuxbrew/bin \
-#    && ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin \
-#    && apt-get install locales \
-#    && localedef -i en_US -f UTF-8 en_US.UTF-8 \
-#    && eval $(~/.linuxbrew/bin/brew shellenv) \
-#    && brew --version \
-#    && brew install allure \
-#    && echo allure --version \
-#    && allure serve
-
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install default-jre-headless \
@@ -41,8 +29,6 @@ RUN apt-get update \
 
 ADD result-controller /home/result-controller
 
-#ADD result_controller.service /lib/systemd/system/result_controller.service
-
 ADD result-controller/generator.sh /home/generator.sh
 
-#ENTRYPOINT ["/usr/bin/python3", "/home/result-controller/src/resultController.py &"]
+CMD ["/usr/bin/python3", "/home/result-controller/src/resultController.py"]
