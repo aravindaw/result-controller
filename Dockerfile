@@ -31,4 +31,6 @@ ADD result-controller /home/result-controller
 
 ADD result-controller/generator.sh /home/generator.sh
 
-CMD ["/usr/bin/python3", "/home/result-controller/src/resultController.py"]
+#CMD ["/usr/bin/python3", "/home/result-controller/src/resultController.py"]
+
+CMD ["/bin/bash", "/home/result-controller/start.sh"]

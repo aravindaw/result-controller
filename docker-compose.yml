@@ -11,5 +11,5 @@ services:
       - "8000:8080"
     volumes:
       - /home/aravinda-weerasekara/Documents/allure-results/:/home/results
-      - /home/aravinda-weerasekara/Documents/allure-reports/:/home/allure-report
+      - /home/aravinda-weerasekara/Documents/allure-reports/:/home/report-backup
       - /home/aravinda-weerasekara/Documents/allure-result_BACKUP/:/home/backup
