@@ -21,15 +21,19 @@ echo move history file to result folder >> /home/result-controller/info.log
 [ ! -f "$REPORT_PATH"/history ] && mv "$REPORT_PATH"/history $TMP_PATH/history
 
 echo generate report folder from result folder >> /home/result-controller/info.log
-allure generate "$TMP_PATH" --clean -o "$REPORT_PATH/$TIME_STAMP"
+#new_report_path=$REPORT_PATH/$TIME_STAMP
+new_report_path=/home/report-backup/$TIME_STAMP
+allure generate "$TMP_PATH" --clean -o "$new_report_path"
 
 echo remove tmp report >> /home/result-controller/info.log
 [ ! -f  $TMP_PATH ] && rm -rf $TMP_PATH
 
 echo create a symlink
-ln -s "$REPORT_PATH/$TIME_STAMP" /home/allure-report
+rm -rf "$REPORT_PATH"
+ln -fs "$new_report_path" "$REPORT_PATH"
 
 # Backup report
-cp -pr /home/allure-report /home/report-backup
+rm -rf /home/report-backup/allure-report
+cp -pr "$new_report_path" /home/report-backup/allure-report
 
 return 1
